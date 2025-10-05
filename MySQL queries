@@ -1,0 +1,23 @@
+create database EMAG_phones_data;
+use EMAG_phones_data;
+
+create table phones(
+	id int,
+    name varchar(255) not null,
+	primary key (id)
+);
+
+create table phone_history(
+	id int primary key,
+    phone_id int not null,
+    price decimal(10,2) not null,
+    rating decimal(5,2) not null,
+    date_collected date not null,
+    foreign key (phone_id) references phones(id)
+);
+
+alter table phone_history drop foreign key phone_history_ibfk_1;
+alter table phones modify column id int not null auto_increment;
+alter table phone_history modify column id int not null auto_increment;
+alter table phone_history add constraint phone_history_ibfk_1 foreign key (id) references phones (id);
+alter table phone_history modify column rating decimal(5,2) default -1;
