@@ -35,7 +35,9 @@ while True:
     soup = BeautifulSoup(response.text, "html.parser")
     products = soup.find_all("div", class_="card-v2-wrapper js-section-wrapper")
     for product in products:
-        name = product.find("a", class_="card-v2-title fw-semibold mb-1 js-product-url").text
+        name = product.find("a", class_="card-v2-title fw-semibold mb-1 js-product-url").text.strip()
+        if len(name) > 255:
+            continue
         if name.startswith("Telefon mobil "):
             name = name[14:]
         rating_str = product.find("span", class_="average-rating fw-semibold")
