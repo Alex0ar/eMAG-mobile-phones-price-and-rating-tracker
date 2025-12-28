@@ -1,0 +1,80 @@
+body {
+    margin: 0;
+}
+
+#headerContainer.centered {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    transition: all 0.5s ease;
+}
+#headerContainer.top {
+    position: fixed;
+    top: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    transition: all 0.5s ease;
+}
+#phoneSelect{
+    display: block;
+    width: 300px;
+}
+#output{
+    display: block;
+    width: 80%;
+}
+#priceChart {
+    z-index: inherit;
+    max-width: 1200px;
+    height: 600px !important;
+    margin-top: 40px;
+}
+#chartContainer {
+    position: relative;
+    z-index: -1;
+    width: 80%;
+    max-width: 1000px;
+    margin: 150px auto 0 auto;
+    opacity: 0;
+    transition: opacity 3s ease;
+}
+.stats-box {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    background: rgba(255, 255, 255, 0.9);
+    border: 1px solid #ddd;
+    padding: 10px 14px;
+    font-size: 14px;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+.models-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 10px;
+    max-width: 900px;
+    margin: 20px auto;
+}
+
+.model-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 10px;
+    border-radius: 8px;
+    background: #f5f5f5;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.model-item:hover {
+    background: #eaeaea;
+}
+
+.model-item input {
+    accent-color: #3b82f6;
+}

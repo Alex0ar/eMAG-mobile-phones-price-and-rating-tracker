@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Phones price history</title>
+    <link rel="stylesheet" href="../static/styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div id="headerContainer" class="centered">
+        <h2>Select a phone model</h2>
+
+        <select id="phoneSelect">
+            <option value="">-- Choose model --</option>
+            {% for phone in phones %}
+                <option value="{{ phone }}">{{ phone }}</option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <div id="chartContainer">
+        <canvas id="priceChart"></canvas>
+        <div id="statsBox" class="stats-box" style="display: none;">
+            <div><strong>Min:</strong> <span id="minPrice"></span> Lei</div>
+            <div><strong>Max:</strong> <span id="maxPrice"></span> Lei</div>
+            <div><strong>Mean:</strong> <span id="meanPrice"></span> Lei</div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+
+</body>
+</html>
