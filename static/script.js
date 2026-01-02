@@ -48,21 +48,30 @@ function initChart() {
             plugins: {
                 legend: {
                     labels: {
+                        color: "#dee1e8ff",
                         usePointStyle: true
                     }
                 }
             },
             scales: {
                 x: {
+                    ticks: {
+                        color: "#dee1e8ff"  
+                    },
                     title: {
                         display: true,
-                        text: "Date"
+                        text: "Date",
+                        color: "#dee1e8ff"
                     }
                 },
                 y: {
+                    ticks: {
+                        color: "#dee1e8ff"
+                    },
                     title: {
                         display: true,
-                        text: "Price (Lei)"
+                        text: "Price (Lei)",
+                        color: "#dee1e8ff"
                     }
                 }
             }
@@ -75,7 +84,7 @@ function addModelToChart(model) {
     fetch(`/data?model=${encodeURIComponent(model)}`)
     .then(res => res.json())
     .then(data => {
-        if(chart.data.labels.length === 0){
+        if(chart.data.labels.length === 0 || chart.data.labels.length < data.dates.length){
             chart.data.labels = data.dates;
         }
         const color = getNextColor();
@@ -87,14 +96,29 @@ function addModelToChart(model) {
             backgroundColor: color + 33,
             borderWidth: 3,
             tension: 0.3,
-            fill: false
+            //fill: false
         })
         addedModels.add(model);
         chart.update();
     })
 }
 
-
+function removeModelFromChart(model) {
+    const indexToRemove = chart.data.datasets.findIndex(
+        dataset => dataset.label === model
+    )
+    if(indexToRemove !== -1){
+        chart.data.datasets.splice(indexToRemove, 1);
+        addedModels.delete(model);
+        chart.update();
+    }
+    if(chart.data.datasets.length === 0){
+        chartContainer.style.opacity = "0";
+        chartContainer.style.zIndex = "-1";
+        headerContainer.classList.remove("top");
+        headerContainer.classList.add("centered");
+    }
+}
 
 // function updateChart() {
 //     document.getElementById("chartContainer").style.display = "block";
@@ -147,6 +171,8 @@ document.querySelectorAll(".form-check-input").forEach(cb => {
         chartContainer.style.zIndex = "1";
         if(cb.checked){
             addModelToChart(cb.value);
+        } else {
+            removeModelFromChart(cb.value);
         }
     })
 })
