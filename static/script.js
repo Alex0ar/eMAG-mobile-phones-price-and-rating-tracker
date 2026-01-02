@@ -1,10 +1,23 @@
-let chart = null;
+let chart;
+const addedModels = new Set();
 //const select = document.getElementById("phoneSelect");
 const headerContainer = document.getElementById("headerContainer");
 const chartContainer = document.getElementById("chartContainer");
 const modal = document.getElementById("modal");
 const openModalBtn = document.getElementById("openModalBtn");
 const closeModalBtn = document.getElementById("closeModalBtn");
+const COLORS = [
+    "#e6194b", "#3cb44b", "#5a76ddff", "#f58231",
+    "#ba40dfff", "#46f0f0", "#f032e6", "#bcf60c",
+    "#fabebe", "#008080", "#e6beff", "#9a6324"
+]
+let colorIndex = 0;
+
+function getNextColor() {
+    const color = COLORS[colorIndex % COLORS.length];
+    colorIndex++;
+    return color;
+}
 
 // -- INITIAL PAGE ELEMENTS
 
@@ -22,46 +35,121 @@ const closeModalBtn = document.getElementById("closeModalBtn");
 
 // -- CHART RELATED
 
-function updateChart() {
-    document.getElementById("chartContainer").style.display = "block";
-    const model = document.getElementById("phoneSelect").value;
-    fetch(`/data?model=${encodeURIComponent(model)}`)
-        .then(response => response.json())
-        .then(data => {
-            const dates = data.dates;
-            const prices = data.prices;
-            const stats = data.stats;
-            document.getElementById("minPrice").textContent = stats.min;
-            document.getElementById("maxPrice").textContent = stats.max;
-            document.getElementById("meanPrice").textContent = stats.mean;
-            document.getElementById("statsBox").style.display = "block";
-            if(chart){
-                chart.destroy();
-            }
-            const ctx = document.getElementById('priceChart').getContext('2d');
-            chart = new Chart(ctx, {
-                type: 'line',
-                data: {
-                    labels: dates,
-                    datasets: [{
-                        label: model,
-                        data: prices,
-                        borderWidth: 2,
-                        tension: 0.3
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    scales: {
-                        x: { title: {display: true, text: "Date"}},
-                        y: { title: {display: true, text: "Price (Lei)"}}
+function initChart() {
+    const ctx = document.getElementById("priceChart").getContext("2d");
+    chart = new Chart(ctx, {
+        type: "line",
+        data: {
+            labels: [],
+            datasets: []
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    labels: {
+                        usePointStyle: true
                     }
                 }
-            });
-        });
+            },
+            scales: {
+                x: {
+                    title: {
+                        display: true,
+                        text: "Date"
+                    }
+                },
+                y: {
+                    title: {
+                        display: true,
+                        text: "Price (Lei)"
+                    }
+                }
+            }
+        }
+    })
 }
 
+function addModelToChart(model) {
+    if(addedModels.has(model)) return;
+    fetch(`/data?model=${encodeURIComponent(model)}`)
+    .then(res => res.json())
+    .then(data => {
+        if(chart.data.labels.length === 0){
+            chart.data.labels = data.dates;
+        }
+        const color = getNextColor();
+        console.log(color);
+        chart.data.datasets.push({
+            label: model,
+            data: data.prices,
+            borderColor: color,
+            backgroundColor: color + 33,
+            borderWidth: 3,
+            tension: 0.3,
+            fill: false
+        })
+        addedModels.add(model);
+        chart.update();
+    })
+}
+
+
+
+// function updateChart() {
+//     document.getElementById("chartContainer").style.display = "block";
+//     const model = document.getElementById("phoneSelect").value;
+//     fetch(`/data?model=${encodeURIComponent(model)}`)
+//         .then(response => response.json())
+//         .then(data => {
+//             const dates = data.dates;
+//             const prices = data.prices;
+//             const stats = data.stats;
+//             document.getElementById("minPrice").textContent = stats.min;
+//             document.getElementById("maxPrice").textContent = stats.max;
+//             document.getElementById("meanPrice").textContent = stats.mean;
+//             document.getElementById("statsBox").style.display = "block";
+//             if(chart){
+//                 chart.destroy();
+//             }
+//             const ctx = document.getElementById('priceChart').getContext('2d');
+//             chart = new Chart(ctx, {
+//                 type: 'line',
+//                 data: {
+//                     labels: dates,
+//                     datasets: [{
+//                         label: model,
+//                         data: prices,
+//                         borderWidth: 2,
+//                         tension: 0.3
+//                     }]
+//                 },
+//                 options: {
+//                     responsive: true,
+//                     scales: {
+//                         x: { title: {display: true, text: "Date"}},
+//                         y: { title: {display: true, text: "Price (Lei)"}}
+//                     }
+//                 }
+//             });
+//         });
+// }
+
 //document.getElementById("phoneSelect").addEventListener("change", updateChart);
+
+initChart();
+
+document.querySelectorAll(".form-check-input").forEach(cb => {
+    cb.addEventListener("change", () => {
+        headerContainer.classList.remove("centered");
+        headerContainer.classList.add("top");
+        chartContainer.style.opacity = "1";
+        chartContainer.style.zIndex = "1";
+        if(cb.checked){
+            addModelToChart(cb.value);
+        }
+    })
+})
 
 // -- MODAL PHONES LIST WINDOW
 

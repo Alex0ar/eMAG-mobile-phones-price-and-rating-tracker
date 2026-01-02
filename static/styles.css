@@ -174,7 +174,9 @@ button.btn-primary:hover {
 /* ===== Chart ===== */
 #chartContainer {
     position: relative;
-    width: 80%;
+    width: 85vw;
+    height: 80vh;
+    z-index: -1;
     max-width: 1100px;
     margin: 150px auto 0 auto;
     opacity: 0;
