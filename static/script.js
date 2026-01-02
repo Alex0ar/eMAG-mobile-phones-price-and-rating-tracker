@@ -1,7 +1,26 @@
 let chart = null;
-const select = document.getElementById("phoneSelect");
+//const select = document.getElementById("phoneSelect");
 const headerContainer = document.getElementById("headerContainer");
 const chartContainer = document.getElementById("chartContainer");
+const modal = document.getElementById("modal");
+const openModalBtn = document.getElementById("openModalBtn");
+const closeModalBtn = document.getElementById("closeModalBtn");
+
+// -- INITIAL PAGE ELEMENTS
+
+// select.addEventListener("change", () => {
+//     if (select.value !== ""){
+//         headerContainer.classList.remove("centered");
+//         headerContainer.classList.add("top");
+//         chartContainer.style.opacity = "1";
+//     } else {
+//         headerContainer.classList.remove("top");
+//         headerContainer.classList.add("centered");
+//         chartContainer.style.opacity = "0";
+//     }
+// })
+
+// -- CHART RELATED
 
 function updateChart() {
     document.getElementById("chartContainer").style.display = "block";
@@ -42,16 +61,29 @@ function updateChart() {
         });
 }
 
-document.getElementById("phoneSelect").addEventListener("change", updateChart);
+//document.getElementById("phoneSelect").addEventListener("change", updateChart);
 
-select.addEventListener("change", () => {
-    if (select.value !== ""){
-        headerContainer.classList.remove("centered");
-        headerContainer.classList.add("top");
-        chartContainer.style.opacity = "1";
-    } else {
-        headerContainer.classList.remove("top");
-        headerContainer.classList.add("centered");
-        chartContainer.style.opacity = "0";
+// -- MODAL PHONES LIST WINDOW
+
+openModalBtn.addEventListener("click", () => {
+    //modal.style.display = "block";
+    modal.classList.add("show");
+    document.body.style.overflow = "hidden";
+})
+
+closeModalBtn.addEventListener("click", () => {
+    //modal.style.display = "none";
+    modal.classList.remove("show");
+    document.body.style.overflow = "auto";
+})
+
+window.addEventListener("click", (e) => {
+    if(e.target === modal){
+        //modal.style.display = "none";
+        modal.classList.remove("show");
+        document.body.style.overflow = "auto";
     }
 })
+
+// openModalBtn.onclick = () => modal.classList.add("show");
+// closeModalBtn.onclick = () => modal.classList.remove("show");
