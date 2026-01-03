@@ -14,11 +14,14 @@ Python scraper + MySQL database to track [eMAG](https://www.emag.ro/telefoane-mo
 
 ## 🖼️ Screenshots
 ### Home page
-<img height="400" alt="image" src="screenshots/home.png" />
+<img height="370" alt="image" src="screenshots/home.png" />
+
 ### Modal selection list
-<img height="400" alt="image" src="screenshots/selection list.png" />
+<img height="370" alt="image" src="screenshots/selection list.png" />
+
 ### Models comparison chart
-<img height="400" alt="image" src="screenshots/chart.png" />
+<img height="370" alt="image" src="screenshots/chart.png" />
+
 ### MySQL ER Diagram
 <img width="320" height="339" alt="image" src="https://github.com/user-attachments/assets/ed5eb70e-31a9-4b1f-b5f0-70e778b95cd4" />
 </br>
