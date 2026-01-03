@@ -2,6 +2,11 @@
 Python scraper + MySQL database to track [eMAG](https://www.emag.ro/telefoane-mobile/c?ref=hp_menu_quick-nav_1_16&type=category) phone prices and ratings over time
 
 
+
+
+
+
+
 ## 🚀 Features
 - 🔍 Scrapes phone names, prices, ratings from eMAG
 - 🗄️ Stores historical data in a MySQL database
