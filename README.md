@@ -11,7 +11,6 @@ Python scraper + MySQL database to track [eMAG](https://www.emag.ro/telefoane-mo
 - 🌙 Modern dark UI with modal-based model selection
 - 🧱 Clean database schema with historical tracking
 </br>
-</br>
 
 ## 🖼️ Screenshots
 ### MySQL ER Diagram
